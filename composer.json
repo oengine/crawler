@@ -1,0 +1,35 @@
+{
+  "name": "oengine/crawler",
+  "description": "",
+  "authors": [
+    {
+      "name": "Nguyen Van Hau",
+      "email": "nguyenvanhau.soft@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "symfony/browser-kit": "^6.2",
+    "symfony/css-selector": "^6.2",
+    "symfony/dom-crawler": "^6.2",
+    "symfony/http-client": "^6.2",
+    "symfony/mime": "^6.2"
+  },
+  "require-dev": {
+    "symfony/phpunit-bridge": "6.2"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [],
+      "aliases": {}
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "OEngine\\Crawler\\": "src/",
+      "OEngine\\Crawler\\Widget\\": "widgets/",
+      "OEngine\\Crawler\\Database\\Factories\\": "database/factories/",
+      "OEngine\\Crawler\\Database\\Seeders\\": "database/seeders/"
+    }
+  }
+}
