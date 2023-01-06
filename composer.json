@@ -20,7 +20,9 @@
   },
   "extra": {
     "laravel": {
-      "providers": [],
+      "providers": [
+        "OEngine\\Crawler\\CrawlerServiceProvider"
+      ],
       "aliases": {}
     }
   },
