@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "oengine/laravel-package": "dev-main",
     "symfony/browser-kit": "^6.2",
     "symfony/css-selector": "^6.2",
     "symfony/dom-crawler": "^6.2",

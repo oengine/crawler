@@ -3,9 +3,8 @@
 namespace OEngine\Crawler;
 
 use Illuminate\Support\ServiceProvider;
-use OEngine\Core\Support\Core\ServicePackage;
-use OEngine\Core\Traits\WithServiceProvider;
-use OEngine\Core\Builder\Menu\MenuBuilder;
+use OEngine\LaravelPackage\ServicePackage;
+use OEngine\LaravelPackage\WithServiceProvider;
 
 class CrawlerServiceProvider extends ServiceProvider
 {
@@ -25,36 +24,5 @@ class CrawlerServiceProvider extends ServiceProvider
             ->hasAssets()
             ->hasTranslations()
             ->runsMigrations();
-    }
-    public function extending()
-    {
-    }
-    public function registerMenu()
-    {
-        //   add_menu_with_sub(function ($subItem) {
-        //     $subItem
-        //         ->addItem('crawler::menu.sidebar.feature1', 'bi bi-speedometer', '', ['name' => 'core.table.slug', 'param' => ['module' => 'feature1']], MenuBuilder::ItemRouter)
-        //         ->addItem('crawler::menu.sidebar.feature2', 'bi bi-speedometer', '', ['name' => 'core.table.slug', 'param' => ['module' => 'feature2']], MenuBuilder::ItemRouter)
-        //         ->addItem('crawler::menu.sidebar.feature3', 'bi bi-speedometer', '', ['name' => 'core.table.slug', 'param' => ['module' => 'feature3']], MenuBuilder::ItemRouter);
-        // }, 'crawler::menu.sidebar.feature',  'bi bi-speedometer');
-    }
-    public function packageRegistered()
-    {
-        $this->registerMenu();
-        $this->extending();
-    }
-    private function bootGate()
-    {
-        if (!$this->app->runningInConsole()) {
-            add_filter('core_auth_permission_custom', function ($prev) {
-                return [
-                    ...$prev
-                ];
-            });
-        }
-    }
-    public function packageBooted()
-    {
-        $this->bootGate();
     }
 }
