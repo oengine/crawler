@@ -7,6 +7,8 @@ use OEngine\Crawler\Models\SiteManager;
 use OEngine\Crawler\Supports\Browser\Client;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler as DomCrawlerBase;
 
 class CrawlerManager
@@ -108,7 +110,7 @@ class CrawlerManager
             if ($dataRaw) {
                 $siteDom = $this->getDomFromHtml($dataRaw->data_raw);
                 $links = $siteDom->filter('a');
-                return ['links' => [], 'dataRaw' => $dataRaw];
+                return ['links' =>  $links, 'dataRaw' => $dataRaw];
             }
             $parts = $this->getInfoFromLink($link);
             $domain_key = md5($parts['host']);
@@ -142,7 +144,28 @@ class CrawlerManager
             return null;
         }
     }
-    public function getItemLink($link)
+    public function FindAndCallback($crawler, $selector, $callback)
+    {
+        $crawler->filter($selector)->each($callback);
+    }
+    public function saveImageToStorage($crawler, $link, $path = '/scrawler', $disk = 'public')
+    {
+        $crawler->filter('img')->each(function ($item) use ($link, $disk, $path) {
+            //  try {
+            $image_src = $item->attr('src');
+            if (!Str::startsWith($image_src, 'http')) {
+                $image_src =  $link . '/' . $image_src;
+            }
+            $image_src = Str::replace('../', '', $image_src);
+            $image_name = basename($image_src);
+            Storage::disk($disk)->put($path . '/' . $image_name, file_get_contents($image_src));
+            $item->getNode(0)->setAttribute('src', $path . '/' . $image_name);
+            // } catch (\Exception $ex) {
+            // }
+        });
+        return $crawler;
+    }
+    public function getItemByLink($link)
     {
         ['dataRaw' => $dataRaw] = $this->insertLink($link);
         return $dataRaw;
