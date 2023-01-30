@@ -84,7 +84,6 @@ class CrawlerManager
     }
     public function checkLink($link)
     {
-
         $parts = $this->getInfoFromLink($link);
         $domain_key = md5($parts['host']);
         $table_name = 'crawl_data_raw_site_manager_' . $domain_key;
@@ -110,7 +109,7 @@ class CrawlerManager
             if ($dataRaw) {
                 $siteDom = $this->getDomFromHtml($dataRaw->data_raw);
                 $links = $siteDom->filter('a');
-                return ['links' =>  $links, 'dataRaw' => $dataRaw];
+                return ['links' =>  $links, 'dataRaw' => $dataRaw, 'isExits' => true];
             }
             $parts = $this->getInfoFromLink($link);
             $domain_key = md5($parts['host']);
@@ -139,7 +138,7 @@ class CrawlerManager
                 'domain_key' => $domain_key, 'domain_site' => $site->link_site, 'link_key' => $link_key, 'link' => $link,
                 'title' =>  $title, 'description' =>  $description, 'data_raw' =>  $data_raw,
             ]);
-            return ['links' => $links, 'dataRaw' => $dataRaw];
+            return ['links' => $links, 'dataRaw' => $dataRaw, 'isExits' => false];
         } catch (\Exception $err) {
             return null;
         }
@@ -159,7 +158,7 @@ class CrawlerManager
             $image_src = Str::replace('../', '', $image_src);
             $image_name = basename($image_src);
             Storage::disk($disk)->put($path . '/' . $image_name, file_get_contents($image_src));
-            $item->getNode(0)->setAttribute('src', $path . '/' . $image_name);
+            $item->getNode(0)->setAttribute('src', '{{asset("storage/' . $path . '/' . $image_name . '"}}');
             // } catch (\Exception $ex) {
             // }
         });
