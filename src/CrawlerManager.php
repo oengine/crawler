@@ -45,7 +45,6 @@ class CrawlerManager
         $this->RemoveNode($crawler, '#fb-root');
         $this->RemoveNode($crawler, 'script');
     }
-
     // Remove unwanted HTML comments
     public function RemoveHtmlComments($content = '')
     {
