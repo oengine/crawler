@@ -157,11 +157,15 @@ class CrawlerManager
             $image_src = Str::replace('../', '', $image_src);
             $image_name = basename($image_src);
             Storage::disk($disk)->put($path . '/' . $image_name, file_get_contents($image_src));
-            $item->getNode(0)->setAttribute('src', '{{asset("storage/' . $path . '/' . $image_name . '"}}');
+            $item->getNode(0)->setAttribute('src', '{{asset("storage/' . $path . '/' . $image_name . '")}}');
             // } catch (\Exception $ex) {
             // }
         });
         return $crawler;
+    }
+    public function TrimContent($content)
+    {
+        return str_replace(["%7B%7B", "%22", '%7D%7D'], ["{{", "'", "}}"], trim($content));
     }
     public function getItemByLink($link)
     {

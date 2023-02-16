@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool checkLink($link)
  * @method static mixed checkKeyOrCreateTabale($domain_key)
  * @method static mixed saveImageToStorage($crawler, $link, $path = '/', $disk = 'local')
+ * @method static string TrimContent(string $content)
+ * 
  * 
  * @see \OEngine\Crawler\Facades\Crawler
  */
